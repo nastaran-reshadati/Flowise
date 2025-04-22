@@ -241,7 +241,7 @@ const Credentials = () => {
                                 variant='contained'
                                 sx={{ borderRadius: 2, height: '100%' }}
                                 onClick={listCredential}
-                                startIcon={<IconPlus />}
+                                startIcon={<IconPlus style={{ marginLeft: '8px' }} />}
                             >
                                 {t('addCredential')}
                             </StyledButton>

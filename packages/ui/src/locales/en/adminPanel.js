@@ -39,5 +39,8 @@ export default {
     searchTools: 'Search Tools',
     searchAssistants: 'Search Assistants',
     noCustomAssistantsAddedYet: 'No Custom Assistants Added Yet',
-    add: 'add'
+    add: 'add',
+    createKey: 'create Key',
+    noAPIKeysYet: 'No API Keys Yet',
+    searchAPIKeys: 'search API Keys'
 }

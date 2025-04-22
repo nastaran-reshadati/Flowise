@@ -233,6 +233,7 @@ const Marketplace = () => {
             (data.description && data.description.toLowerCase().indexOf(search.toLowerCase()) > -1)
         )
     }
+    const direction = localStorage.getItem('direction')
 
     function filterByBadge(data) {
         return badgeFilter.length > 0 ? badgeFilter.includes(data.badge) : true
@@ -534,7 +535,18 @@ const Marketplace = () => {
                                     sx={{
                                         borderColor: theme.palette.grey[900] + 25,
                                         borderRadius: 2,
-                                        color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                        color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                        ...(direction === 'rtl'
+                                            ? {
+                                                  borderTopRightRadius: '6px !important',
+                                                  borderBottomRightRadius: '6px !important',
+                                                  borderTopLeftRadius: '0px !important',
+                                                  borderBottomLeftRadius: '0px !important'
+                                              }
+                                            : {
+                                                  borderTopRightRadius: '0px !important',
+                                                  borderBottomRightRadius: '0px !important'
+                                              })
                                     }}
                                     variant='contained'
                                     value='card'
@@ -546,7 +558,20 @@ const Marketplace = () => {
                                     sx={{
                                         borderColor: theme.palette.grey[900] + 25,
                                         borderRadius: 2,
-                                        color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                        borderLeft: '1px solid #C8D4DF !important',
+                                        color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                        ...(direction === 'rtl'
+                                            ? {
+                                                  borderTopLeftRadius: '6px !important',
+                                                  borderBottomLeftRadius: '6px !important',
+                                                  borderTopRightRadius: '0px !important',
+                                                  borderBottomRightRadius: '0px !important'
+                                                  //   borderLeft: 'none !important'
+                                              }
+                                            : {
+                                                  borderTopLeftRadius: '0 !important',
+                                                  borderBottomLeftRadius: '0 !important'
+                                              })
                                     }}
                                     variant='contained'
                                     value='list'

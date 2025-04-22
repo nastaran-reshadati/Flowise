@@ -214,7 +214,7 @@ const Variables = () => {
                                 variant='contained'
                                 sx={{ borderRadius: 2, height: '100%' }}
                                 onClick={addNew}
-                                startIcon={<IconPlus />}
+                                startIcon={<IconPlus style={{ marginLeft: '8px' }} />}
                                 id='btn_createVariable'
                             >
                                 {t('addVariable')}

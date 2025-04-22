@@ -50,6 +50,7 @@ const Documents = () => {
     const navigate = useNavigate()
     const getAllDocumentStores = useApi(documentsApi.getAllDocumentStores)
     const { t } = useTranslation('adminPanel')
+    const direction = localStorage.getItem('direction')
 
     const [error, setError] = useState(null)
     const [isLoading, setLoading] = useState(true)
@@ -164,7 +165,18 @@ const Documents = () => {
                                 sx={{
                                     borderColor: theme.palette.grey[900] + 25,
                                     borderRadius: 2,
-                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                    ...(direction === 'rtl'
+                                        ? {
+                                              borderTopRightRadius: '6px !important',
+                                              borderBottomRightRadius: '6px !important',
+                                              borderTopLeftRadius: '0px !important',
+                                              borderBottomLeftRadius: '0px !important'
+                                          }
+                                        : {
+                                              borderTopRightRadius: '0px !important',
+                                              borderBottomRightRadius: '0px !important'
+                                          })
                                 }}
                                 variant='contained'
                                 value='card'
@@ -176,7 +188,20 @@ const Documents = () => {
                                 sx={{
                                     borderColor: theme.palette.grey[900] + 25,
                                     borderRadius: 2,
-                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                    borderLeft: '1px solid #C8D4DF !important',
+                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                    ...(direction === 'rtl'
+                                        ? {
+                                              borderTopLeftRadius: '6px !important',
+                                              borderBottomLeftRadius: '6px !important',
+                                              borderTopRightRadius: '0px !important',
+                                              borderBottomRightRadius: '0px !important'
+                                              //   borderLeft: 'none !important'
+                                          }
+                                        : {
+                                              borderTopLeftRadius: '0 !important',
+                                              borderBottomLeftRadius: '0 !important'
+                                          })
                                 }}
                                 variant='contained'
                                 value='list'
@@ -189,7 +214,7 @@ const Documents = () => {
                             variant='contained'
                             sx={{ borderRadius: 2, height: '100%' }}
                             onClick={addNew}
-                            startIcon={<IconPlus />}
+                            startIcon={<IconPlus style={{ marginLeft: '8px' }} />}
                             id='btn_createVariable'
                         >
                             {t('addItem')}

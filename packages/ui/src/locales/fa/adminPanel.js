@@ -40,5 +40,8 @@ export default {
     searchTools: 'جستجوی ابزار ها',
     searchAssistants: 'دستیاران جستجو',
     noCustomAssistantsAddedYet: 'هنوز دستیار سفارشی اضافه نشده است',
-    add: 'افزودن'
+    add: 'افزودن',
+    createKey: 'ایجاد کلید',
+    noAPIKeysYet: 'هنوز هیچ کلید API وجود ندارد',
+    searchAPIKeys: 'جستجوی کلیدهای API'
 }

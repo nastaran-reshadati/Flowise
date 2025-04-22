@@ -58,6 +58,7 @@ import {
 } from '@tabler/icons-react'
 import APIEmptySVG from '@/assets/images/api_empty.svg'
 import UploadJSONFileDialog from '@/views/apikey/UploadJSONFileDialog'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| APIKey ||============================== //
 
@@ -84,6 +85,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 function APIKeyRow(props) {
     const [open, setOpen] = useState(false)
     const theme = useTheme()
+    const { t } = useTranslation('adminPanel')
 
     return (
         <>
@@ -202,6 +204,7 @@ const APIKey = () => {
 
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
     const closeSnackbar = (...args) => dispatch(closeSnackbarAction(...args))
+    const { t } = useTranslation('adminPanel')
 
     const [isLoading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -367,24 +370,29 @@ const APIKey = () => {
                     <ErrorBoundary error={error} />
                 ) : (
                     <Stack flexDirection='column' sx={{ gap: 3 }}>
-                        <ViewHeader onSearchChange={onSearchChange} search={true} searchPlaceholder='Search API Keys' title='API Keys'>
+                        <ViewHeader
+                            onSearchChange={onSearchChange}
+                            search={true}
+                            searchPlaceholder={t('searchAPIKeys')}
+                            title={t('apiKeys')}
+                        >
                             <Button
                                 variant='outlined'
                                 sx={{ borderRadius: 2, height: '100%' }}
                                 onClick={uploadDialog}
-                                startIcon={<IconFileUpload />}
+                                startIcon={<IconFileUpload style={{ marginLeft: '8px' }} />}
                                 id='btn_importApiKeys'
                             >
-                                Import
+                                {t('import')}
                             </Button>
                             <StyledButton
                                 variant='contained'
                                 sx={{ borderRadius: 2, height: '100%' }}
                                 onClick={addNew}
-                                startIcon={<IconPlus />}
+                                startIcon={<IconPlus style={{ marginLeft: '8px' }} />}
                                 id='btn_createApiKey'
                             >
-                                Create Key
+                                {t('createKey')}
                             </StyledButton>
                         </ViewHeader>
                         {!isLoading && apiKeys.length <= 0 ? (
@@ -396,7 +404,7 @@ const APIKey = () => {
                                         alt='APIEmptySVG'
                                     />
                                 </Box>
-                                <div>No API Keys Yet</div>
+                                <div> {t('noAPIKeysYet')}</div>
                             </Stack>
                         ) : (
                             <TableContainer
