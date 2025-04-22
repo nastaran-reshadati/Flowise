@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 // material-ui
 import { useTheme } from '@mui/material/styles'
@@ -12,6 +13,8 @@ import NavCollapse from '../NavCollapse'
 
 const NavGroup = ({ item }) => {
     const theme = useTheme()
+    const customization = useSelector((state) => state.customization)
+    const isRtl = customization.direction === 'rtl'
 
     // menu list collapse & items
     const items = item.children?.map((menu) => {
@@ -34,10 +37,30 @@ const NavGroup = ({ item }) => {
             <List
                 subheader={
                     item.title && (
-                        <Typography variant='caption' sx={{ ...theme.typography.menuCaption }} display='block' gutterBottom>
+                        <Typography
+                            variant='caption'
+                            sx={{
+                                ...theme.typography.menuCaption,
+                                textAlign: isRtl ? 'right' : 'left',
+                                direction: isRtl ? 'rtl' : 'ltr',
+                                paddingRight: isRtl ? '16px' : '0',
+                                paddingLeft: isRtl ? '0' : '16px'
+                            }}
+                            display='block'
+                            gutterBottom
+                        >
                             {item.title}
                             {item.caption && (
-                                <Typography variant='caption' sx={{ ...theme.typography.subMenuCaption }} display='block' gutterBottom>
+                                <Typography
+                                    variant='caption'
+                                    sx={{
+                                        ...theme.typography.subMenuCaption,
+                                        textAlign: isRtl ? 'right' : 'left',
+                                        direction: isRtl ? 'rtl' : 'ltr'
+                                    }}
+                                    display='block'
+                                    gutterBottom
+                                >
                                     {item.caption}
                                 </Typography>
                             )}

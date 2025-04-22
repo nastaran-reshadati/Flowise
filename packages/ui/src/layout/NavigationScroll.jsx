@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 // ==============================|| NAVIGATION SCROLL TO TOP ||============================== //
 
 const NavigationScroll = ({ children }) => {
     const location = useLocation()
     const { pathname } = location
+    const customization = useSelector((state) => state.customization)
 
     useEffect(() => {
         window.scrollTo({
@@ -15,6 +17,12 @@ const NavigationScroll = ({ children }) => {
             behavior: 'smooth'
         })
     }, [pathname])
+
+    useEffect(() => {
+        // Set document direction
+        document.dir = customization.direction
+        document.documentElement.setAttribute('dir', customization.direction)
+    }, [customization.direction])
 
     return children || null
 }

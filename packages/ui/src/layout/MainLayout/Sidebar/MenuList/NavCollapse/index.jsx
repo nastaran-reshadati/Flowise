@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 
 // material-ui
 import { useTheme } from '@mui/material/styles'
-import { Collapse, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Collapse, List, ListItemButton, ListItemText, Typography } from '@mui/material'
 
 // project imports
 import NavItem from '../NavItem'
@@ -18,6 +18,7 @@ import { IconChevronDown, IconChevronUp } from '@tabler/icons-react'
 const NavCollapse = ({ menu, level }) => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
+    const isRtl = customization.direction === 'rtl'
 
     const [open, setOpen] = useState(false)
     const [selected, setSelected] = useState(null)
@@ -65,12 +66,14 @@ const NavCollapse = ({ menu, level }) => {
                     alignItems: 'flex-start',
                     backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
                     py: level > 1 ? 1 : 1.25,
-                    pl: `${level * 24}px`
+                    pl: isRtl ? 'auto' : `${level * 24}px`,
+                    pr: isRtl ? `${level * 24}px` : 'auto',
+                    direction: isRtl ? 'rtl' : 'ltr'
                 }}
                 selected={selected === menu.id}
                 onClick={handleClick}
             >
-                <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon>
+                {/* <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon> */}
                 <ListItemText
                     primary={
                         <Typography variant={selected === menu.id ? 'h5' : 'body1'} color='inherit' sx={{ my: 'auto' }}>
@@ -100,7 +103,8 @@ const NavCollapse = ({ menu, level }) => {
                         '&:after': {
                             content: "''",
                             position: 'absolute',
-                            left: '32px',
+                            left: isRtl ? 'auto' : '32px',
+                            right: isRtl ? '32px' : 'auto',
                             top: 0,
                             height: '100%',
                             width: '1px',

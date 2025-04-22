@@ -21,6 +21,7 @@ const NavItem = ({ item, level, navType, onClick, onUploadFile }) => {
     const dispatch = useDispatch()
     const customization = useSelector((state) => state.customization)
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'))
+    const isRtl = customization.direction === 'rtl'
 
     const Icon = item.icon
     const itemIcon = item?.icon ? (
@@ -111,20 +112,41 @@ const NavItem = ({ item, level, navType, onClick, onUploadFile }) => {
             onClick={() => itemHandler(item.id)}
         >
             {item.id === 'loadChatflow' && <input type='file' hidden accept='.json' onChange={(e) => handleFileUpload(e)} />}
-            <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
+            <ListItemIcon
+                sx={{
+                    my: 'auto',
+                    minWidth: !item?.icon ? 18 : 36,
+                    marginRight: isRtl ? 'auto' : '4px',
+                    marginLeft: isRtl ? '14px' : 'auto'
+                }}
+            >
+                {itemIcon}
+            </ListItemIcon>
             <ListItemText
                 primary={
                     <Typography
                         variant={customization.isOpen.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'}
                         color='inherit'
-                        sx={{ my: 0.5 }}
+                        sx={{
+                            my: 0.5,
+                            textAlign: isRtl ? 'right' : 'left'
+                        }}
                     >
                         {item.title}
                     </Typography>
                 }
                 secondary={
                     item.caption && (
-                        <Typography variant='caption' sx={{ ...theme.typography.subMenuCaption, mt: -0.6 }} display='block' gutterBottom>
+                        <Typography
+                            variant='caption'
+                            sx={{
+                                ...theme.typography.subMenuCaption,
+                                mt: -0.6,
+                                textAlign: isRtl ? 'right' : 'left'
+                            }}
+                            display='block'
+                            gutterBottom
+                        >
                             {item.caption}
                         </Typography>
                     )

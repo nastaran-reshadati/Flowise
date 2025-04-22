@@ -47,6 +47,45 @@
     }
 }
 
+// ==============================|| RTL SUPPORT ||============================== //
+
+[dir='rtl'] {
+    .MuiList-root {
+        text-align: right;
+    }
+
+    .scrollbar-container {
+        .ps__rail-y {
+            right: auto !important;
+            left: 0 !important;
+        }
+        .ps__thumb-y {
+            right: auto;
+            left: 0;
+        }
+    }
+
+    .MuiListItemIcon-root {
+        justify-content: flex-end;
+    }
+
+    // Fix for any specific RTL issues with perfect scrollbar
+    .ps__rail-y {
+        right: auto !important;
+        left: 0 !important;
+    }
+
+    // Fix for RTL menus
+    .MuiMenu-paper {
+        text-align: right;
+    }
+
+    // Fix for RTL dropdown menus
+    .MuiPopover-paper {
+        text-align: right;
+    }
+}
+
 // ==============================|| ANIMATION KEYFRAMES ||============================== //
 
 @keyframes wings {

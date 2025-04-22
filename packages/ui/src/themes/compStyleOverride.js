@@ -118,7 +118,9 @@ export default function componentStyleOverrides(theme) {
             styleOverrides: {
                 root: {
                     color: theme.darkTextPrimary,
-                    minWidth: '36px'
+                    minWidth: '36px',
+                    marginRight: theme?.customization?.direction === 'rtl' ? 'auto' : '4px',
+                    marginLeft: theme?.customization?.direction === 'rtl' ? '4px' : 'auto'
                 }
             }
         },
@@ -166,12 +168,14 @@ export default function componentStyleOverrides(theme) {
                     '&.MuiInputBase-inputSizeSmall': {
                         padding: '10px 14px',
                         '&.MuiInputBase-inputAdornedStart': {
-                            paddingLeft: 0
+                            paddingLeft: theme?.customization?.direction === 'rtl' ? '14px' : 0,
+                            paddingRight: theme?.customization?.direction === 'rtl' ? 0 : '14px'
                         }
                     }
                 },
                 inputAdornedStart: {
-                    paddingLeft: 4
+                    paddingLeft: theme?.customization?.direction === 'rtl' ? '14px' : 4,
+                    paddingRight: theme?.customization?.direction === 'rtl' ? 4 : '14px'
                 },
                 notchedOutline: {
                     borderRadius: `${theme?.customization?.borderRadius}px`

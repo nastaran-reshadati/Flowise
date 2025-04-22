@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
 // material-ui
 import { useTheme } from '@mui/material/styles'
@@ -18,6 +19,8 @@ import { drawerWidth, headerHeight } from '@/store/constant'
 const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
     const theme = useTheme()
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'))
+    const customization = useSelector((state) => state.customization)
+    const isRtl = customization.direction === 'rtl'
 
     const drawer = (
         <>
@@ -36,8 +39,8 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
                     component='div'
                     style={{
                         height: !matchUpMd ? 'calc(100vh - 56px)' : `calc(100vh - ${headerHeight}px)`,
-                        paddingLeft: '16px',
-                        paddingRight: '16px'
+                        paddingLeft: '10px',
+                        paddingRight: '10px'
                     }}
                 >
                     <MenuList />
@@ -65,7 +68,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
             <Drawer
                 container={container}
                 variant={matchUpMd ? 'persistent' : 'temporary'}
-                anchor='left'
+                anchor={isRtl ? 'right' : 'left'}
                 open={drawerOpen}
                 onClose={drawerToggle}
                 sx={{
@@ -76,7 +79,8 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
                         [theme.breakpoints.up('md')]: {
                             top: `${headerHeight}px`
                         },
-                        borderRight: drawerOpen ? '1px solid' : 'none',
+                        borderRight: isRtl ? 'none' : drawerOpen ? '1px solid' : 'none',
+                        borderLeft: isRtl ? (drawerOpen ? '1px solid' : 'none') : 'none',
                         borderColor: drawerOpen ? theme.palette.primary[200] + 75 : 'transparent',
                         zIndex: 1000
                     }

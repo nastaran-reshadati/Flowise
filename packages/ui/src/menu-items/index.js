@@ -1,9 +1,12 @@
-import dashboard from './dashboard'
+import useDashboardMenu from './dashboard'
 
 // ==============================|| MENU ITEMS ||============================== //
 
-const menuItems = {
-    items: [dashboard]
-}
+const useMenuItems = () => {
+    const dashboard = useDashboardMenu()
 
-export default menuItems
+    return {
+        items: [dashboard]
+    }
+}
+export default useMenuItems

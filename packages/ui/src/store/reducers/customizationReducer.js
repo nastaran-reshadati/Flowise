@@ -10,7 +10,9 @@ export const initialState = {
     borderRadius: config.borderRadius,
     opened: true,
     isHorizontal: localStorage.getItem('isHorizontal') === 'true' ? true : false,
-    isDarkMode: localStorage.getItem('isDarkMode') === 'true' ? true : false
+    isDarkMode: localStorage.getItem('isDarkMode') === 'true' ? true : false,
+    direction: localStorage.getItem('direction') === 'rtl' ? 'rtl' : 'ltr',
+    language: localStorage.getItem('locale') || 'en'
 }
 
 // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -49,6 +51,12 @@ const customizationReducer = (state = initialState, action) => {
                 ...state,
                 isDarkMode: action.isDarkMode
             }
+        case actionTypes.SET_DIRECTION:
+            return {
+                ...state,
+                direction: action.direction
+            }
+
         default:
             return state
     }

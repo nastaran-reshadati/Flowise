@@ -1,3 +1,4 @@
+1
 /**
  * Color intention that you want to used in your theme
  * @param {JsonObject} theme Theme customization object
@@ -17,6 +18,11 @@ export default function themePalette(theme) {
             dark: theme.customization.isDarkMode ? theme.colors?.darkPrimaryDark : theme.colors?.primaryDark,
             200: theme.customization.isDarkMode ? theme.colors?.darkPrimary200 : theme.colors?.primary200,
             800: theme.customization.isDarkMode ? theme.colors?.darkPrimary800 : theme.colors?.primary800
+        },
+        info: {
+            light: theme.customization.isDarkMode ? theme.colors?.darkPrimaryLight : theme.colors?.primaryLight,
+            main: theme.colors?.primaryMain,
+            dark: theme.customization.isDarkMode ? theme.colors?.darkPrimaryDark : theme.colors?.primaryDark
         },
         secondary: {
             light: theme.customization.isDarkMode ? theme.colors?.darkSecondaryLight : theme.colors?.secondaryLight,

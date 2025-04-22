@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 // material-ui
 import { useTheme } from '@mui/material/styles'
-import { Avatar, Box, ButtonBase, Switch } from '@mui/material'
+import { Avatar, Box, ButtonBase, Menu, MenuItem, Stack, Switch, Tooltip } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 // project imports
@@ -16,7 +16,9 @@ import ProfileSection from './ProfileSection'
 import { IconMenu2 } from '@tabler/icons-react'
 
 // store
-import { SET_DARKMODE } from '@/store/actions'
+import { SET_DARKMODE, SET_DIRECTION } from '@/store/actions'
+import { IconLanguage } from '@tabler/icons-react'
+import i18next, { changeLanguage } from '@/locales'
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
 
@@ -67,6 +69,53 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     }
 }))
 
+const DirectionSwitch = styled(Switch)(({ theme }) => ({
+    width: 62,
+    height: 34,
+    padding: 7,
+    '& .MuiSwitch-switchBase': {
+        margin: 1,
+        padding: 0,
+        transform: 'translateX(6px)',
+        '&.Mui-checked': {
+            color: '#fff',
+            transform: 'translateX(22px)',
+            '& .MuiSwitch-thumb:before': {
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                    '#fff'
+                )}" d="M9 10v5h2V4h2v11h2V4h2V2H9C6.79 2 5 3.79 5 6s1.79 4 4 4zm12 8l-4-4v3H5v2h12v3l4-4z"/></svg>')`
+            },
+            '& + .MuiSwitch-track': {
+                opacity: 1,
+                backgroundColor: theme.palette.primary.main
+            }
+        }
+    },
+    '& .MuiSwitch-thumb': {
+        backgroundColor: theme.palette.mode === 'dark' ? '#003892' : '#001e3c',
+        width: 32,
+        height: 32,
+        '&:before': {
+            content: "''",
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            left: 0,
+            top: 0,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                '#fff'
+            )}" d="M10 10v5h2V4h2v11h2V4h2V2h-8C7.79 2 6 3.79 6 6s1.79 4 4 4zm-2 7v-3l-4 4 4 4v-3h12v-2H8z"/></svg>')`
+        }
+    },
+    '& .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#aab4be',
+        borderRadius: 20 / 2
+    }
+}))
+
 const Header = ({ handleLeftDrawerToggle }) => {
     const theme = useTheme()
     const navigate = useNavigate()
@@ -74,12 +123,30 @@ const Header = ({ handleLeftDrawerToggle }) => {
     const customization = useSelector((state) => state.customization)
 
     const [isDark, setIsDark] = useState(customization.isDarkMode)
+    const [isRtl, setIsRtl] = useState(customization.direction === 'rtl')
+
+    const [languageMenuAnchor, setLanguageMenuAnchor] = useState(null)
+
     const dispatch = useDispatch()
 
     const changeDarkMode = () => {
         dispatch({ type: SET_DARKMODE, isDarkMode: !isDark })
         setIsDark((isDark) => !isDark)
         localStorage.setItem('isDarkMode', !isDark)
+    }
+
+    const changeDirection = () => {
+        const newDirection = isRtl ? 'ltr' : 'rtl'
+        const newLanguage = newDirection === 'rtl' ? 'fa' : 'en'
+
+        // Update direction
+        dispatch({ type: SET_DIRECTION, direction: newDirection })
+        setIsRtl(!isRtl)
+        localStorage.setItem('direction', newDirection)
+
+        // Update language based on direction
+        i18next.changeLanguage(newLanguage)
+        localStorage.setItem('locale', newLanguage)
     }
 
     const signOutClicked = () => {
@@ -89,8 +156,31 @@ const Header = ({ handleLeftDrawerToggle }) => {
         navigate(0)
     }
 
+    const langs = [
+        { title: 'فارسی', key: 'fa' },
+        { title: 'english', key: 'en' }
+    ]
+    const openChangeLang = (event) => {
+        setLanguageMenuAnchor(event.currentTarget)
+    }
+
+    const handleChangeLanguage = (lang) => {
+        // Use the enhanced changeLanguage function which handles both language and direction
+        changeLanguage(lang)
+
+        // Update local state to match the new language/direction
+        setIsRtl(lang === 'fa')
+
+        // Close language menu
+        setLanguageMenuAnchor(false)
+    }
+
+    const closeLanguageMenu = (event) => {
+        setLanguageMenuAnchor(false)
+    }
+
     return (
-        <>
+        <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', direction: isRtl ? 'rtl' : 'ltr' }}>
             {/* logo & toggler button */}
             <Box
                 sx={{
@@ -125,11 +215,87 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     </Avatar>
                 </ButtonBase>
             </Box>
+
             <Box sx={{ flexGrow: 1 }} />
-            <MaterialUISwitch checked={isDark} onChange={changeDarkMode} />
-            <Box sx={{ ml: 2 }}></Box>
-            <ProfileSection handleLogout={signOutClicked} username={localStorage.getItem('username') ?? ''} />
-        </>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Tooltip title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
+                    <MaterialUISwitch checked={isDark} onChange={changeDarkMode} />
+                </Tooltip>
+
+                <Tooltip title={isRtl ? 'Switch to LTR' : 'Switch to RTL'}>
+                    <DirectionSwitch checked={isRtl} onChange={changeDirection} />
+                </Tooltip>
+                <ButtonBase onClick={openChangeLang} sx={{ borderRadius: '12px', overflow: 'hidden', marginRight: '10px' }}>
+                    <Avatar
+                        variant='rounded'
+                        sx={{
+                            ...theme.typography.commonAvatar,
+                            ...theme.typography.mediumAvatar,
+                            transition: 'all .2s ease-in-out',
+                            background: theme.palette.primary.light,
+                            color: theme.palette.primary.dark,
+                            '&:hover': {
+                                background: theme.palette.primary.dark,
+                                color: theme.palette.primary.light
+                            }
+                        }}
+                        // onClick={handleToggle}
+                        color='inherit'
+                    >
+                        <IconLanguage stroke={1.5} size='1.3rem' />
+                    </Avatar>
+                </ButtonBase>
+
+                <ProfileSection handleLogout={signOutClicked} username={localStorage.getItem('username') ?? ''} />
+            </Box>
+
+            <Menu
+                mt={1}
+                id={'basic-menu'}
+                anchorEl={languageMenuAnchor}
+                open={Boolean(languageMenuAnchor)}
+                onClose={closeLanguageMenu}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                    sx: { width: 150, direction: isRtl ? 'rtl' : 'ltr' }
+                }}
+                sx={{
+                    '.MuiPaper-root': {
+                        '.MuiList-root': {
+                            '.MuiMenuItem-root': {
+                                minWidth: '100%',
+                                direction: isRtl ? 'rtl' : 'ltr',
+                                textAlign: isRtl ? 'right' : 'left'
+                            }
+                        }
+                    }
+                }}
+            >
+                {langs.map((lang) => (
+                    <MenuItem
+                        key={lang.key}
+                        sx={{
+                            justifyContent: isRtl ? 'flex-end' : 'flex-start',
+                            direction: isRtl ? 'rtl' : 'ltr'
+                        }}
+                        onClick={() => handleChangeLanguage(lang.key)}
+                    >
+                        <Stack
+                            direction={isRtl ? 'row-reverse' : 'row'}
+                            spacing={1}
+                            sx={{
+                                width: '100%',
+                                justifyContent: isRtl ? 'flex-end' : 'flex-start',
+                                textAlign: isRtl ? 'right' : 'left'
+                            }}
+                        >
+                            <Box>{lang.title}</Box>
+                        </Stack>
+                    </MenuItem>
+                ))}
+            </Menu>
+        </Box>
     )
 }
 

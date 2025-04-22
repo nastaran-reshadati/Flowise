@@ -1,0 +1,54 @@
+/* RTL fixes for the application */
+
+/* General RTL fixes */
+[dir='rtl'] .MuiListItemIcon-root {
+    padding-right: 16px;
+    padding-left: 16px;
+    margin-right: 0;
+    margin-left: 16px;
+}
+
+[dir='rtl'] .MuiListItemButton-root {
+    padding-right: 0;
+    padding-left: 16px;
+    text-align: right;
+}
+
+[dir='rtl'] .MuiListItemText-root {
+    margin-right: 0;
+    margin-left: 0;
+    text-align: right;
+}
+
+/* Fix ReactFlow canvas for RTL */
+.react-flow-rtl-fix .react-flow__edge {
+    transform: scaleX(-1);
+}
+
+/* Menu navigation RTL fixes */
+[dir='rtl'] .menu-item {
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/* Dialog and form RTL fixes */
+[dir='rtl'] .MuiDialogContent-root {
+    text-align: right;
+}
+
+[dir='rtl'] .MuiFormLabel-root {
+    right: 0;
+    left: auto;
+    text-align: right;
+}
+
+[dir='rtl'] .MuiInputBase-root {
+    text-align: right;
+}
+
+/* Override basic alignment for RTL */
+[dir='rtl'] {
+    text-align: right;
+}
