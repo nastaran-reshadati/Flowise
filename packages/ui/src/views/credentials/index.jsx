@@ -48,6 +48,7 @@ import { baseURL } from '@/store/constant'
 import { SET_COMPONENT_CREDENTIALS } from '@/store/actions'
 import ViewHeader from '@/layout/MainLayout/ViewHeader'
 import ErrorBoundary from '@/ErrorBoundary'
+import { useTranslation } from 'react-i18next'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     borderColor: theme.palette.grey[900] + 25,
@@ -76,6 +77,8 @@ const Credentials = () => {
     const customization = useSelector((state) => state.customization)
     const dispatch = useDispatch()
     useNotifier()
+
+    const { t } = useTranslation('adminPanel')
 
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
     const closeSnackbar = (...args) => dispatch(closeSnackbarAction(...args))
@@ -231,8 +234,8 @@ const Credentials = () => {
                         <ViewHeader
                             onSearchChange={onSearchChange}
                             search={true}
-                            searchPlaceholder='Search Credentials'
-                            title='Credentials'
+                            searchPlaceholder={t('searchCredential')}
+                            title={t('credentials')}
                         >
                             <StyledButton
                                 variant='contained'
@@ -240,7 +243,7 @@ const Credentials = () => {
                                 onClick={listCredential}
                                 startIcon={<IconPlus />}
                             >
-                                Add Credential
+                                {t('addCredential')}
                             </StyledButton>
                         </ViewHeader>
                         {!isLoading && credentials.length <= 0 ? (
@@ -252,7 +255,7 @@ const Credentials = () => {
                                         alt='CredentialEmptySVG'
                                     />
                                 </Box>
-                                <div>No Credentials Yet</div>
+                                <div>{t('noCredentialsYet')}</div>
                             </Stack>
                         ) : (
                             <TableContainer

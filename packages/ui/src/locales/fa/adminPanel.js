@@ -15,6 +15,10 @@ export default {
     marketplaces: 'بازارها',
     tools: 'ابزارها',
     credentials: 'اعتبارنامه‌ها',
+    addCredential: 'افزودن اعتبارنامه',
+    searchCredential: 'جستجوی اعتبارنامه‌ها',
+    noCredentialsYet: 'هنوز هیچ اعتبارنامه‌ای وجود ندارد',
+
     variables: 'متغیرها',
     apiKeys: 'کلیدهای API',
     documentStores: 'مخازن اسناد',
