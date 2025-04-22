@@ -62,6 +62,7 @@ const edgeTypes = { buttonedge: ButtonEdge }
 const Canvas = () => {
     const theme = useTheme()
     const navigate = useNavigate()
+    const customization = useSelector((state) => state.customization)
 
     const { state } = useLocation()
     const templateFlowData = state ? state.templateFlowData : ''
@@ -537,7 +538,7 @@ const Canvas = () => {
                 </AppBar>
                 <Box sx={{ pt: '70px', height: '100vh', width: '100%' }}>
                     <div className='reactflow-parent-wrapper'>
-                        <div className='reactflow-wrapper' ref={reactFlowWrapper}>
+                        <div className='reactflow-wrapper' ref={reactFlowWrapper} style={{ direction: 'ltr' }}>
                             <ReactFlow
                                 nodes={nodes}
                                 edges={edges}
@@ -554,13 +555,14 @@ const Canvas = () => {
                                 fitView
                                 deleteKeyCode={canvas.canvasDialogShow ? null : ['Delete']}
                                 minZoom={0.1}
-                                className='chatflow-canvas'
+                                className={`chatflow-canvas ${customization.direction === 'rtl' ? 'react-flow-rtl-fix' : ''}`}
                             >
                                 <Controls
                                     style={{
                                         display: 'flex',
                                         flexDirection: 'row',
-                                        left: '50%',
+                                        left: customization.direction === 'rtl' ? 'auto' : '50%',
+                                        right: customization.direction === 'rtl' ? '50%' : 'auto',
                                         transform: 'translate(-50%, -50%)'
                                     }}
                                 />

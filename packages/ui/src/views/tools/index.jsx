@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 
 // material-ui
 import { Box, Stack, Button, ButtonGroup, Skeleton, ToggleButtonGroup, ToggleButton } from '@mui/material'
-
+import { useTranslation } from 'react-i18next'
 // project imports
 import MainCard from '@/ui-component/cards/MainCard'
 import ItemCard from '@/ui-component/cards/ItemCard'
@@ -35,6 +35,8 @@ const Tools = () => {
     const [showDialog, setShowDialog] = useState(false)
     const [dialogProps, setDialogProps] = useState({})
     const [view, setView] = useState(localStorage.getItem('toolsDisplayStyle') || 'card')
+    const { t } = useTranslation('adminPanel')
+    const direction = localStorage.getItem('direction')
 
     const inputRef = useRef(null)
 
@@ -138,7 +140,7 @@ const Tools = () => {
                     <ErrorBoundary error={error} />
                 ) : (
                     <Stack flexDirection='column' sx={{ gap: 3 }}>
-                        <ViewHeader onSearchChange={onSearchChange} search={true} searchPlaceholder='Search Tools' title='Tools'>
+                        <ViewHeader onSearchChange={onSearchChange} search={true} searchPlaceholder={t('searchTools')} title={t('tools')}>
                             <ToggleButtonGroup
                                 sx={{ borderRadius: 2, maxHeight: 40 }}
                                 value={view}
@@ -150,7 +152,18 @@ const Tools = () => {
                                     sx={{
                                         borderColor: theme.palette.grey[900] + 25,
                                         borderRadius: 2,
-                                        color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                        color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                        ...(direction === 'rtl'
+                                            ? {
+                                                  borderTopRightRadius: '6px !important',
+                                                  borderBottomRightRadius: '6px !important',
+                                                  borderTopLeftRadius: '0px !important',
+                                                  borderBottomLeftRadius: '0px !important'
+                                              }
+                                            : {
+                                                  borderTopRightRadius: '0px !important',
+                                                  borderBottomRightRadius: '0px !important'
+                                              })
                                     }}
                                     variant='contained'
                                     value='card'
@@ -162,7 +175,19 @@ const Tools = () => {
                                     sx={{
                                         borderColor: theme.palette.grey[900] + 25,
                                         borderRadius: 2,
-                                        color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                        color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                        ...(direction === 'rtl'
+                                            ? {
+                                                  borderTopLeftRadius: '6px !important',
+                                                  borderBottomLeftRadius: '6px !important',
+                                                  borderTopRightRadius: '0px !important',
+                                                  borderBottomRightRadius: '0px !important'
+                                                  //   borderLeft: 'none !important'
+                                              }
+                                            : {
+                                                  borderTopLeftRadius: '0 !important',
+                                                  borderBottomLeftRadius: '0 !important'
+                                              })
                                     }}
                                     variant='contained'
                                     value='list'
@@ -176,9 +201,15 @@ const Tools = () => {
                                     variant='outlined'
                                     onClick={() => inputRef.current.click()}
                                     startIcon={<IconFileUpload />}
-                                    sx={{ borderRadius: 2, height: 40 }}
+                                    sx={{
+                                        borderRadius: 2,
+                                        height: 40,
+                                        '& .MuiButton-startIcon': {
+                                            marginInlineEnd: '8px'
+                                        }
+                                    }}
                                 >
-                                    Load
+                                    {t('load')}
                                 </Button>
                                 <input
                                     style={{ display: 'none' }}
@@ -194,9 +225,15 @@ const Tools = () => {
                                     variant='contained'
                                     onClick={addNew}
                                     startIcon={<IconPlus />}
-                                    sx={{ borderRadius: 2, height: 40 }}
+                                    sx={{
+                                        borderRadius: 2,
+                                        height: 40,
+                                        '& .MuiButton-startIcon': {
+                                            marginInlineEnd: '8px'
+                                        }
+                                    }}
                                 >
-                                    Create
+                                    {t('create')}
                                 </StyledButton>
                             </ButtonGroup>
                         </ViewHeader>
@@ -229,7 +266,7 @@ const Tools = () => {
                                         alt='ToolEmptySVG'
                                     />
                                 </Box>
-                                <div>No Tools Created Yet</div>
+                                <div>{t('noToolsCreatedYet')}</div>
                             </Stack>
                         )}
                     </Stack>

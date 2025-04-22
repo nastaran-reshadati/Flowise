@@ -39,6 +39,7 @@ import doc_store_empty from '@/assets/images/doc_store_empty.svg'
 
 // const
 import { baseURL, gridSpacing } from '@/store/constant'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| DOCUMENTS ||============================== //
 
@@ -48,6 +49,7 @@ const Documents = () => {
 
     const navigate = useNavigate()
     const getAllDocumentStores = useApi(documentsApi.getAllDocumentStores)
+    const { t } = useTranslation('adminPanel')
 
     const [error, setError] = useState(null)
     const [isLoading, setLoading] = useState(true)
@@ -145,7 +147,12 @@ const Documents = () => {
                 <ErrorBoundary error={error} />
             ) : (
                 <Stack flexDirection='column' sx={{ gap: 3 }}>
-                    <ViewHeader onSearchChange={onSearchChange} search={true} searchPlaceholder='Search Name' title='Document Store'>
+                    <ViewHeader
+                        onSearchChange={onSearchChange}
+                        search={true}
+                        searchPlaceholder={t('searchName')}
+                        title={t('documentStore')}
+                    >
                         <ToggleButtonGroup
                             sx={{ borderRadius: 2, maxHeight: 40 }}
                             value={view}
@@ -185,7 +192,7 @@ const Documents = () => {
                             startIcon={<IconPlus />}
                             id='btn_createVariable'
                         >
-                            Add New
+                            {t('addItem')}
                         </StyledButton>
                     </ViewHeader>
                     {!view || view === 'card' ? (
@@ -332,7 +339,7 @@ const Documents = () => {
                                     alt='doc_store_empty'
                                 />
                             </Box>
-                            <div>No Document Stores Created Yet</div>
+                            <div>{t('noDocumentStoresCreatedYet')}</div>
                         </Stack>
                     )}
                 </Stack>

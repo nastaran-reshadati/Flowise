@@ -47,3 +47,19 @@
     cursor: crosshair;
     background: #5dba62 !important;
 }
+
+/* Fix for RTL layout in ReactFlow */
+.react-flow-rtl-fix {
+    /* Always keep the canvas layout LTR for proper node connections */
+    direction: ltr !important;
+}
+
+/* Fix ReactFlow node rendering in RTL mode */
+.react-flow-rtl-fix .react-flow__node {
+    transform-origin: center center;
+}
+
+/* Fix edge connections for RTL */
+.react-flow-rtl-fix .react-flow__edge {
+    transform-origin: center center;
+}

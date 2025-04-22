@@ -12,29 +12,7 @@ import ViewHeader from '@/layout/MainLayout/ViewHeader'
 // icons
 import { IconRobotFace, IconBrandOpenai, IconBrandAzure } from '@tabler/icons-react'
 
-const cards = [
-    {
-        title: 'Custom Assistant',
-        description: 'Create custom assistant using your choice of LLMs',
-        icon: <IconRobotFace />,
-        iconText: 'Custom',
-        gradient: 'linear-gradient(135deg, #fff8e14e 0%, #ffcc802f 100%)'
-    },
-    {
-        title: 'OpenAI Assistant',
-        description: 'Create assistant using OpenAI Assistant API',
-        icon: <IconBrandOpenai />,
-        iconText: 'OpenAI',
-        gradient: 'linear-gradient(135deg, #c9ffd85f 0%, #a0f0b567 100%)'
-    },
-    {
-        title: 'Azure Assistant (Coming Soon)',
-        description: 'Create assistant using Azure Assistant API',
-        icon: <IconBrandAzure />,
-        iconText: 'Azure',
-        gradient: 'linear-gradient(135deg, #c4e1ff57 0%, #80b7ff5a 100%)'
-    }
-]
+import { useTranslation } from 'react-i18next'
 
 const StyledCard = styled(Card)(({ gradient }) => ({
     height: '300px',
@@ -63,6 +41,30 @@ const FeatureCards = () => {
     const theme = useTheme()
     const customization = useSelector((state) => state.customization)
 
+    const { t } = useTranslation('adminPanel')
+    const cards = [
+        {
+            title: t('customAssistant'),
+            description: t('customAssistantDesc'),
+            icon: <IconRobotFace />,
+            iconText: 'Custom',
+            gradient: 'linear-gradient(135deg, #fff8e14e 0%, #ffcc802f 100%)'
+        },
+        {
+            title: t('openAIAssistant'),
+            description: t('openAIAssistantDesc'),
+            icon: <IconBrandOpenai />,
+            iconText: 'OpenAI',
+            gradient: 'linear-gradient(135deg, #c9ffd85f 0%, #a0f0b567 100%)'
+        },
+        {
+            title: t('azureAssistant'),
+            description: t('azureAssistantDesc'),
+            icon: <IconBrandAzure />,
+            iconText: 'Azure',
+            gradient: 'linear-gradient(135deg, #c4e1ff57 0%, #80b7ff5a 100%)'
+        }
+    ]
     const onCardClick = (index) => {
         if (index === 0) navigate('/assistants/custom')
         if (index === 1) navigate('/assistants/openai')
@@ -71,10 +73,12 @@ const FeatureCards = () => {
 
     return (
         <Stack
-            spacing={3}
+            // spacing={3}
             direction='row'
             sx={{
                 width: '100%',
+                display: 'flex',
+                gap: '20px',
                 justifyContent: 'space-between'
             }}
         >
@@ -118,11 +122,13 @@ const FeatureCards = () => {
 // ==============================|| ASSISTANTS ||============================== //
 
 const Assistants = () => {
+    const { t } = useTranslation('adminPanel')
+
     return (
         <>
             <MainCard>
                 <Stack flexDirection='column' sx={{ gap: 3 }}>
-                    <ViewHeader title='Assistants' />
+                    <ViewHeader title={t('assistants')} />
                     <FeatureCards />
                 </Stack>
             </MainCard>

@@ -28,12 +28,15 @@ import { baseURL } from '@/store/constant'
 
 // icons
 import { IconPlus, IconLayoutGrid, IconList } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| CHATFLOWS ||============================== //
 
 const Chatflows = () => {
     const navigate = useNavigate()
     const theme = useTheme()
+    const direction = localStorage.getItem('direction')
+    const { t } = useTranslation('adminPanel')
 
     const [isLoading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -127,11 +130,17 @@ const Chatflows = () => {
 
     return (
         <MainCard>
+            {/* <Typography>{t('welcome')}</Typography> */}
             {error ? (
                 <ErrorBoundary error={error} />
             ) : (
                 <Stack flexDirection='column' sx={{ gap: 3 }}>
-                    <ViewHeader onSearchChange={onSearchChange} search={true} searchPlaceholder='Search Name or Category' title='Chatflows'>
+                    <ViewHeader
+                        onSearchChange={onSearchChange}
+                        search={true}
+                        searchPlaceholder={t('searchNameOrCategory')}
+                        title={t('chatflows')}
+                    >
                         <ToggleButtonGroup
                             sx={{ borderRadius: 2, maxHeight: 40 }}
                             value={view}
@@ -143,7 +152,18 @@ const Chatflows = () => {
                                 sx={{
                                     borderColor: theme.palette.grey[900] + 25,
                                     borderRadius: 2,
-                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                    ...(direction === 'rtl'
+                                        ? {
+                                              borderTopRightRadius: '6px !important',
+                                              borderBottomRightRadius: '6px !important',
+                                              borderTopLeftRadius: '0px !important',
+                                              borderBottomLeftRadius: '0px !important'
+                                          }
+                                        : {
+                                              borderTopRightRadius: '0px !important',
+                                              borderBottomRightRadius: '0px !important'
+                                          })
                                 }}
                                 variant='contained'
                                 value='card'
@@ -155,7 +175,20 @@ const Chatflows = () => {
                                 sx={{
                                     borderColor: theme.palette.grey[900] + 25,
                                     borderRadius: 2,
-                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                    borderLeft: '1px solid #C8D4DF !important',
+                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                    ...(direction === 'rtl'
+                                        ? {
+                                              borderTopLeftRadius: '6px !important',
+                                              borderBottomLeftRadius: '6px !important',
+                                              borderTopRightRadius: '0px !important',
+                                              borderBottomRightRadius: '0px !important'
+                                              //   borderLeft: 'none !important'
+                                          }
+                                        : {
+                                              borderTopLeftRadius: '0 !important',
+                                              borderBottomLeftRadius: '0 !important'
+                                          })
                                 }}
                                 variant='contained'
                                 value='list'
@@ -164,8 +197,19 @@ const Chatflows = () => {
                                 <IconList />
                             </ToggleButton>
                         </ToggleButtonGroup>
-                        <StyledButton variant='contained' onClick={addNew} startIcon={<IconPlus />} sx={{ borderRadius: 2, height: 40 }}>
-                            Add New
+                        <StyledButton
+                            variant='contained'
+                            onClick={addNew}
+                            startIcon={<IconPlus />}
+                            sx={{
+                                borderRadius: 2,
+                                height: 40,
+                                '& .MuiButton-startIcon': {
+                                    marginInlineEnd: '8px'
+                                }
+                            }}
+                        >
+                            {t('addItem')}
                         </StyledButton>
                     </ViewHeader>
                     {!view || view === 'card' ? (

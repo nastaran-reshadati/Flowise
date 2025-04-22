@@ -49,6 +49,7 @@ import useConfirm from '@/hooks/useConfirm'
 import { baseURL } from '@/store/constant'
 import { gridSpacing } from '@/store/constant'
 import useNotifier from '@/utils/useNotifier'
+import { useTranslation } from 'react-i18next'
 
 const badges = ['POPULAR', 'NEW']
 const types = ['Chatflow', 'Agentflow', 'Tool']
@@ -73,6 +74,7 @@ const Marketplace = () => {
     useNotifier()
 
     const theme = useTheme()
+    const { t } = useTranslation('adminPanel')
 
     const [isLoading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -101,7 +103,6 @@ const Marketplace = () => {
     const enqueueSnackbar = (...args) => dispatch(enqueueSnackbarAction(...args))
     const closeSnackbar = (...args) => dispatch(closeSnackbarAction(...args))
     const { confirm } = useConfirm()
-
     const handleTabChange = (event, newValue) => {
         if (newValue === 1 && !getAllCustomTemplatesApi.data) {
             getAllCustomTemplatesApi.request()
@@ -519,8 +520,8 @@ const Marketplace = () => {
                             }
                             onSearchChange={onSearchChange}
                             search={true}
-                            searchPlaceholder='Search Name/Description/Node'
-                            title='Marketplace'
+                            searchPlaceholder={t('searchNameDescriptionNode')}
+                            title={t('marketplace')}
                         >
                             <ToggleButtonGroup
                                 sx={{ borderRadius: 2, height: '100%' }}

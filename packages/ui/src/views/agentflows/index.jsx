@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // material-ui
-import { Box, Skeleton, Stack, ToggleButton, ToggleButtonGroup } from '@mui/material'
+import { Box, Skeleton, Stack } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 
 // project imports
@@ -13,7 +13,6 @@ import AgentsEmptySVG from '@/assets/images/agents_empty.svg'
 import LoginDialog from '@/ui-component/dialog/LoginDialog'
 import ConfirmDialog from '@/ui-component/dialog/ConfirmDialog'
 import { FlowListTable } from '@/ui-component/table/FlowListTable'
-import { StyledButton } from '@/ui-component/button/StyledButton'
 import ViewHeader from '@/layout/MainLayout/ViewHeader'
 import ErrorBoundary from '@/ErrorBoundary'
 
@@ -27,7 +26,7 @@ import useApi from '@/hooks/useApi'
 import { baseURL } from '@/store/constant'
 
 // icons
-import { IconPlus, IconLayoutGrid, IconList } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| AGENTS ||============================== //
 
@@ -44,6 +43,8 @@ const Agentflows = () => {
 
     const getAllAgentflows = useApi(chatflowsApi.getAllAgentflows)
     const [view, setView] = useState(localStorage.getItem('flowDisplayStyle') || 'card')
+
+    const { t } = useTranslation('adminPanel')
 
     const handleChange = (event, nextView) => {
         if (nextView === null) return
@@ -131,8 +132,13 @@ const Agentflows = () => {
                 <ErrorBoundary error={error} />
             ) : (
                 <Stack flexDirection='column' sx={{ gap: 3 }}>
-                    <ViewHeader onSearchChange={onSearchChange} search={true} searchPlaceholder='Search Name or Category' title='Agents'>
-                        <ToggleButtonGroup
+                    <ViewHeader
+                        onSearchChange={onSearchChange}
+                        search={true}
+                        searchPlaceholder={t('searchNameOrCategory')}
+                        title={t('agents')}
+                    >
+                        {/* <ToggleButtonGroup
                             sx={{ borderRadius: 2, maxHeight: 40 }}
                             value={view}
                             color='primary'
@@ -163,10 +169,10 @@ const Agentflows = () => {
                             >
                                 <IconList />
                             </ToggleButton>
-                        </ToggleButtonGroup>
-                        <StyledButton variant='contained' onClick={addNew} startIcon={<IconPlus />} sx={{ borderRadius: 2, height: 40 }}>
-                            Add New
-                        </StyledButton>
+                        </ToggleButtonGroup> */}
+                        {/* <StyledButton variant='contained' onClick={addNew} startIcon={<IconPlus />} sx={{ borderRadius: 2, height: 40 }}>
+                            {t('addItem')}
+                        </StyledButton> */}
                     </ViewHeader>
                     {!view || view === 'card' ? (
                         <>

@@ -22,6 +22,7 @@ import useApi from '@/hooks/useApi'
 
 // icons
 import { IconPlus } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next'
 
 // ==============================|| CustomAssistantLayout ||============================== //
 
@@ -85,6 +86,8 @@ const CustomAssistantLayout = () => {
         }
     }, [getAllAssistantsApi.error])
 
+    const { t } = useTranslation('adminPanel')
+
     return (
         <>
             <MainCard>
@@ -96,8 +99,8 @@ const CustomAssistantLayout = () => {
                             isBackButton={true}
                             onSearchChange={onSearchChange}
                             search={true}
-                            searchPlaceholder='Search Assistants'
-                            title='Custom Assistant'
+                            searchPlaceholder={t('searchAssistants')}
+                            title={t('customAssistant')}
                             onBack={() => navigate(-1)}
                         >
                             <StyledButton
@@ -106,7 +109,7 @@ const CustomAssistantLayout = () => {
                                 onClick={addNew}
                                 startIcon={<IconPlus />}
                             >
-                                Add
+                                {t('add')}
                             </StyledButton>
                         </ViewHeader>
                         {isLoading ? (
@@ -140,7 +143,7 @@ const CustomAssistantLayout = () => {
                                         alt='AssistantEmptySVG'
                                     />
                                 </Box>
-                                <div>No Custom Assistants Added Yet</div>
+                                <div>{t('noCustomAssistantsAddedYet')}</div>
                             </Stack>
                         )}
                     </Stack>
