@@ -43,6 +43,10 @@ export const ChatPopUp = ({ chatflowid, isAgentCanvas }) => {
     const anchorRef = useRef(null)
     const prevOpen = useRef(open)
 
+    const direction = localStorage.getItem('direction')
+
+    const isRtl = direction === 'rtl'
+
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
             return
@@ -136,7 +140,12 @@ export const ChatPopUp = ({ chatflowid, isAgentCanvas }) => {
     return (
         <>
             <StyledFab
-                sx={{ position: 'absolute', right: 20, top: 20 }}
+                sx={{
+                    position: 'absolute',
+                    right: isRtl ? 'auto' : 20,
+                    left: isRtl ? 20 : 'auto',
+                    top: 20
+                }}
                 ref={anchorRef}
                 size='small'
                 color='secondary'

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 // material-ui
-import { Box, Skeleton, Stack } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
+import { Box, Stack, ToggleButton, Skeleton, ToggleButtonGroup } from '@mui/material'
 
 // project imports
 import MainCard from '@/ui-component/cards/MainCard'
@@ -27,6 +27,10 @@ import { baseURL } from '@/store/constant'
 
 // icons
 import { useTranslation } from 'react-i18next'
+import { IconLayoutGrid } from '@tabler/icons-react'
+import { IconList } from '@tabler/icons-react'
+import { StyledButton } from '@/ui-component/button/StyledButton'
+import { IconPlus } from '@tabler/icons-react'
 
 // ==============================|| AGENTS ||============================== //
 
@@ -45,6 +49,8 @@ const Agentflows = () => {
     const [view, setView] = useState(localStorage.getItem('flowDisplayStyle') || 'card')
 
     const { t } = useTranslation('adminPanel')
+
+    const direction = localStorage.getItem('direction')
 
     const handleChange = (event, nextView) => {
         if (nextView === null) return
@@ -138,7 +144,7 @@ const Agentflows = () => {
                         searchPlaceholder={t('searchNameOrCategory')}
                         title={t('agents')}
                     >
-                        {/* <ToggleButtonGroup
+                        <ToggleButtonGroup
                             sx={{ borderRadius: 2, maxHeight: 40 }}
                             value={view}
                             color='primary'
@@ -149,7 +155,18 @@ const Agentflows = () => {
                                 sx={{
                                     borderColor: theme.palette.grey[900] + 25,
                                     borderRadius: 2,
-                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                    ...(direction === 'rtl'
+                                        ? {
+                                              borderTopRightRadius: '6px !important',
+                                              borderBottomRightRadius: '6px !important',
+                                              borderTopLeftRadius: '0px !important',
+                                              borderBottomLeftRadius: '0px !important'
+                                          }
+                                        : {
+                                              borderTopRightRadius: '0px !important',
+                                              borderBottomRightRadius: '0px !important'
+                                          })
                                 }}
                                 variant='contained'
                                 value='card'
@@ -161,7 +178,20 @@ const Agentflows = () => {
                                 sx={{
                                     borderColor: theme.palette.grey[900] + 25,
                                     borderRadius: 2,
-                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit'
+                                    borderLeft: '1px solid #C8D4DF !important',
+                                    color: theme?.customization?.isDarkMode ? 'white' : 'inherit',
+                                    ...(direction === 'rtl'
+                                        ? {
+                                              borderTopLeftRadius: '6px !important',
+                                              borderBottomLeftRadius: '6px !important',
+                                              borderTopRightRadius: '0px !important',
+                                              borderBottomRightRadius: '0px !important'
+                                              //   borderLeft: 'none !important'
+                                          }
+                                        : {
+                                              borderTopLeftRadius: '0 !important',
+                                              borderBottomLeftRadius: '0 !important'
+                                          })
                                 }}
                                 variant='contained'
                                 value='list'
@@ -169,10 +199,10 @@ const Agentflows = () => {
                             >
                                 <IconList />
                             </ToggleButton>
-                        </ToggleButtonGroup> */}
-                        {/* <StyledButton variant='contained' onClick={addNew} startIcon={<IconPlus />} sx={{ borderRadius: 2, height: 40 }}>
+                        </ToggleButtonGroup>
+                        <StyledButton variant='contained' onClick={addNew} startIcon={<IconPlus />} sx={{ borderRadius: 2, height: 40 }}>
                             {t('addItem')}
-                        </StyledButton> */}
+                        </StyledButton>
                     </ViewHeader>
                     {!view || view === 'card' ? (
                         <>

@@ -96,6 +96,10 @@ const AddNodes = ({ nodesData, node, isAgentCanvas }) => {
         filterSearch(searchValue, newValue)
     }
 
+    const direction = localStorage.getItem('direction')
+
+    const isRtl = direction === 'rtl'
+
     const addException = (category) => {
         let nodes = []
         if (category) {
@@ -279,7 +283,12 @@ const AddNodes = ({ nodesData, node, isAgentCanvas }) => {
     return (
         <>
             <StyledFab
-                sx={{ left: 20, top: 20 }}
+                sx={{
+                    position: 'absolute',
+                    right: isRtl ? 'auto' : 2500,
+                    left: isRtl ? 2500 : 'auto',
+                    top: 20
+                }}
                 ref={anchorRef}
                 size='small'
                 color='primary'
@@ -359,7 +368,12 @@ const AddNodes = ({ nodesData, node, isAgentCanvas }) => {
                                         />
                                         {!isAgentCanvas && (
                                             <Tabs
-                                                sx={{ position: 'relative', minHeight: '50px', height: '50px' }}
+                                                sx={{
+                                                    position: 'absolute',
+                                                    right: isRtl ? 'auto' : 1800,
+                                                    left: isRtl ? 1800 : 'auto',
+                                                    top: 20
+                                                }}
                                                 variant='fullWidth'
                                                 value={tabValue}
                                                 onChange={handleTabChange}
